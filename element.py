@@ -1,7 +1,6 @@
 from pywinauto import Desktop, Application
 from _ctypes import COMError
 
-# get app list from desktop, it returns a list of UIAWrapper with handle number
 desktop = Desktop(backend='uia').windows()
 
 
@@ -36,8 +35,3 @@ def get_control_by_handle(handle):
 def get_control_by_kw(root, **kwargs):
     return root.window(**kwargs)
 
-# # foreach with the handle number, eg excel handle = 396126
-# app = Desktop(backend='uia').window(handle=396126)
-# # above is a WindowSpecification object, which can be called with print_control_identifiers
-# worksheet_config = app.window(best_match='Worksheet ConfigurationCustom')
-# print_controls(worksheet_config)
