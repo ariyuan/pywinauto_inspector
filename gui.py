@@ -55,7 +55,7 @@ def main():
     window.geometry('900x600')
 
     # main layout
-    Grid.rowconfigure(window, 0, weight=1)
+    Grid.rowconfigure(window, 0)
     Grid.rowconfigure(window, 1, weight=10)
     Grid.columnconfigure(window, 0, weight=1)
     control_panel = tk.Frame(window)
