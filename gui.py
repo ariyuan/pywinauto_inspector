@@ -34,12 +34,12 @@ def main():
         txt = f.getvalue()
         reset_text(txt)
         # save the input to combobox
-        # Fixme: if duplicated element is called, no need to add it it combobox list
-        if len(input_box['values']) > 20:
+        if len(input_box['values']) > 20:  # max item is 20, else pop the oldest one
             _list = list(input_box['values'])
             _list.pop(0)
             input_box['values'] = tuple(_list)
-        input_box['values'] = input_box['values'] + (input_txt,)
+        if input_txt not in input_box['values']:
+            input_box['values'] = input_box['values'] + (input_txt,)
 
     def init():
         process_handles = element.get_window_handle_list()
