@@ -22,14 +22,19 @@ def main():
         input_txt = input_box.get()
         # call print_control_identifier and get the output result
         f = io.StringIO()
-        if input_txt.find('handle') != -1:
-            definition.app = element.get_control_by_handle(int(input_txt.split('=')[-1]))
-            element_to_print = definition.app
-        else:
-            element_to_print = element.get_control_by_kw(definition.app, **utility.convert_string_to_dict(input_txt))
-        definition.current_control = element_to_print
-        with redirect_stdout(f):
-            element.print_controls(element_to_print)
+        try:
+            if input_txt.find('handle') != -1:
+                definition.app = element.get_control_by_handle(int(input_txt.split('=')[-1]))
+                element_to_print = definition.app
+            else:
+                element_to_print = element.get_control_by_kw(definition.app,
+                                                             **utility.convert_string_to_dict(input_txt))
+            definition.current_control = element_to_print
+            with redirect_stdout(f):
+                element.print_controls(element_to_print)
+        except (AttributeError, TypeError) as e:
+            # TODO: pop up a message box
+            pass
         # print it to text box
         txt = f.getvalue()
         reset_text(txt)
