@@ -23,7 +23,7 @@ def highlight(control):
 def get_window_handle_list():
     output = ""
     for ele in desktop:
-        content = u"{} {}\n".format(repr(ele), str(ele.handle))
+        content = u"{} {}\n".format(repr(ele), ' [handle=' + str(ele.handle) + ']')
         output += content
     return output
 
@@ -34,4 +34,3 @@ def get_control_by_handle(handle):
 
 def get_control_by_kw(root, **kwargs):
     return root.window(**kwargs)
-
