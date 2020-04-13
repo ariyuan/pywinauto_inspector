@@ -6,6 +6,8 @@ import io
 import element
 import definition
 import utility
+from tkinter import messagebox
+from pywinauto.findwindows import *
 
 
 def main():
@@ -32,9 +34,8 @@ def main():
             definition.current_control = element_to_print
             with redirect_stdout(f):
                 element.print_controls(element_to_print)
-        except (AttributeError, TypeError) as e:
-            # TODO: pop up a message box
-            pass
+        except (AttributeError, TypeError, NameError, ElementNotFoundError) as e:
+            messagebox.showinfo("Error", type(e).__name__ + ": " + str(e))
         # print it to text box
         txt = f.getvalue()
         reset_text(txt)
@@ -52,8 +53,11 @@ def main():
 
     def highlight():
         input_txt = input_box.get()
-        element_to_highlight = element.get_control_by_kw(definition.app, **utility.convert_string_to_dict(input_txt))
-        element.highlight(element_to_highlight)
+        try:
+            element_to_highlight = element.get_control_by_kw(definition.app, **utility.convert_string_to_dict(input_txt))
+            element.highlight(element_to_highlight)
+        except Exception as e:
+            messagebox.showinfo("Error", type(e).__name__ + ": " + str(e))
 
     window = tk.Tk()
     window.title("pywinauto inspector")
