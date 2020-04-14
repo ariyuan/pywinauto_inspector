@@ -1,8 +1,6 @@
 from pywinauto import Desktop, Application
 from _ctypes import COMError
 
-desktop = Desktop(backend='uia').windows()
-
 
 def print_controls(control):
     print_control_func = getattr(control, 'print_control_identifiers')
@@ -22,8 +20,12 @@ def highlight(control):
 
 def get_window_handle_list():
     output = ""
-    for ele in desktop:
-        content = u"{} {}\n".format(repr(ele.element_info), ' [ handle=' + str(ele.handle) + ' ]')
+    for ele in Desktop(backend='uia').windows():
+        control_type = ele.element_info.control_type
+        title = ele.element_info.name
+        class_name = ele.element_info.class_name
+        content = u"{} {}\n".format('[ title={}, class_name={}, control_type={} ]'.format(title, class_name, control_type),
+                                    ' [ handle=' + str(ele.handle) + ' ]')
         output += content
     return output
 

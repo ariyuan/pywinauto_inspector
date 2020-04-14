@@ -87,8 +87,10 @@ def main():
     input_box['values'] = ['']
     btn_show = tk.Button(control_panel, text="Print", command=show)
     btn_load = tk.Button(control_panel, text="Highlight", command=highlight)
+    btn_root = tk.Button(control_panel, text="Root", command=init)
     btn_show.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
     btn_load.grid(row=0, column=2, sticky="ew", padx=5)
+    btn_root.grid(row=0, column=3, sticky="ew", padx=5)
     input_box.grid(row=0, column=0, sticky="nsew")
 
     init()
