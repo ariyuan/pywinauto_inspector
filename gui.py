@@ -8,6 +8,7 @@ import definition
 import utility
 from tkinter import messagebox
 from pywinauto.findwindows import *
+import gui_debug
 
 
 def main():
@@ -32,6 +33,8 @@ def main():
                 element_to_print = element.get_control_by_kw(definition.app,
                                                              **utility.convert_string_to_dict(input_txt))
             definition.current_control = element_to_print
+            current_ele.set(
+                'Current: {} {}'.format(element_to_print.element_info.name, element_to_print.element_info.control_type))
             with redirect_stdout(f):
                 element.print_controls(element_to_print)
         except (AttributeError, TypeError, NameError, ElementNotFoundError) as e:
@@ -54,7 +57,8 @@ def main():
     def highlight():
         input_txt = input_box.get()
         try:
-            element_to_highlight = element.get_control_by_kw(definition.app, **utility.convert_string_to_dict(input_txt))
+            element_to_highlight = element.get_control_by_kw(definition.app,
+                                                             **utility.convert_string_to_dict(input_txt))
             element.highlight(element_to_highlight)
         except Exception as e:
             messagebox.showinfo("Error", type(e).__name__ + ": " + str(e))
@@ -82,16 +86,21 @@ def main():
     scrollb.grid(row=0, column=1, sticky='nsew')
 
     # control panel
-    n = tk.StringVar()
-    input_box = ttk.Combobox(control_panel, width=60, textvariable=n)
+    input_box = ttk.Combobox(control_panel, width=60)
     input_box['values'] = ['']
     btn_show = tk.Button(control_panel, text="Print", command=show)
     btn_load = tk.Button(control_panel, text="Highlight", command=highlight)
     btn_root = tk.Button(control_panel, text="Root", command=init)
+    current_ele = StringVar()
+    label_current_element = tk.Label(control_panel, textvariable=current_ele)
+    label_current_element.bind("<Button-1>", lambda event, root=window,
+                                                    get_element=definition.get_current_control: gui_debug.debug_window(
+        root, get_element))
     btn_show.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
     btn_load.grid(row=0, column=2, sticky="ew", padx=5)
     btn_root.grid(row=0, column=3, sticky="ew", padx=5)
     input_box.grid(row=0, column=0, sticky="nsew")
+    label_current_element.grid(row=0, column=4, sticky="ew", padx=5)
 
     init()
 
