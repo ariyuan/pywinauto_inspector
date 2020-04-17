@@ -6,7 +6,7 @@ This is the tool for searching elements by using pywinauto, and get the identifi
 
 First you need to have pywinauto installed
 
-	pip install pywinauto`
+	pip install pywinauto
 
 Then run
 
