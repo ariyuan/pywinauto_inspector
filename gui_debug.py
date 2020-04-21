@@ -15,6 +15,8 @@ def debug_window(root, get_element):
         result = {}
         for prop in element_properties:
             result.update({prop: getattr(element.element_info, prop)})
+        result.update({'object_type': type(element)})
+        result.update({'wrappered_type': type(element.wrapper_object())})
         reset_text(pprint.pformat(result))
 
     def run_command():
@@ -28,7 +30,7 @@ def debug_window(root, get_element):
             arg = arg.strip("'")
             runline = method
         try:
-            func = getattr(element, runline)
+            func = getattr(element.wrapper_object(), runline)
             if arg is not None and arg != '':
                 ret = func(arg)
             else:
